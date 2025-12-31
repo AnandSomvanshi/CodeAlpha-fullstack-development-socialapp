@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ user.username }}'s Profile</title>
+</head>
+<body>
+    <h1>{{ user.username }}'s Profile</h1>
+
+    {% if user.profile_pic %}
+        <img src="{{ user.profile_pic.url }}" alt="Profile Pic" width="150">
+    {% endif %}
+
+    <p><strong>Bio:</strong> {{ user.bio }}</p>
+    <p><strong>Followers:</strong> {{ user.followers.count }}</p>
+    <p><strong>Following:</strong> {{ user.following.count }}</p>
+
+    {% if request.user != user %}
+        {% if request.user in user.followers.all %}
+            <a href="{% url 'follow_user' user.id %}">Unfollow</a>
+        {% else %}
+            <a href="{% url 'follow_user' user.id %}">Follow</a>
+        {% endif %}
+    {% endif %}
+
+    <hr>
+
+    <h2>Posts</h2>
+    {% for post in posts %}
+        <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+            <p>{{ post.content }}</p>
+            {% if post.image %}
+                <img src="{{ post.image.url }}" alt="Post Image" width="200">
+            {% endif %}
+            <p>Likes: {{ post.likes.count }}</p>
+            <a href="{% url 'like_post' post.id %}">Like/Unlike</a> | 
+            <a href="{% url 'post_detail' post.id %}">Comments</a>
+        </div>
+    {% empty %}
+        <p>No posts yet.</p>
+    {% endfor %}
+
+    <hr>
+    <a href="{% url 'feed' %}">Back to Feed</a>
+</body>
+</html>

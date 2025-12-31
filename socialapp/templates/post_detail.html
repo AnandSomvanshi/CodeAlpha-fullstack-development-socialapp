@@ -1,0 +1,15 @@
+<h1>Post by {{ post.user.username }}</h1>
+<p>{{ post.content }}</p>
+
+<h2>Comments</h2>
+{% for comment in comments %}
+    <p>{{ comment.user.username }}: {{ comment.content }}</p>
+{% empty %}
+    <p>No comments yet.</p>
+{% endfor %}
+
+<h3>Add Comment</h3>
+<form method="post" action="{% url 'add_comment' post.id %}">{% csrf_token %}
+    <textarea name="content"></textarea><br>
+    <button type="submit">Add Comment</button>
+</form>

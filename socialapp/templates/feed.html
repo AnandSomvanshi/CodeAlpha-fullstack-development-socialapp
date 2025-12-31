@@ -1,0 +1,18 @@
+<!-- templates/feed.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feed</title>
+</head>
+<body>
+    <h1>Posts Feed</h1>
+    {% for post in posts %}
+        <div>
+            <p>{{ post.user.username }}: {{ post.content }}</p>
+            <p>Likes: {{ post.likes.count }}</p>
+        </div>
+    {% empty %}
+        <p>No posts yet!</p>
+    {% endfor %}
+</body>
+</html>
